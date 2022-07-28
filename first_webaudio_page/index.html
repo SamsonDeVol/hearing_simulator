@@ -2,14 +2,18 @@
 
 <!DOCTYPE html>
 <html lang="en">
+  <script src="second_script.js" defer></script>
   <head>
     <h1> First Web Audio Page </h1>
-    <script src="second_script.js" defer></script>
     <button data-playing="false" role="switch" aria-checked="false">
       <span>Play/Pause</span>
     </button>
-  
+    <input type="range" id="volume" min="0" max="2" value="1" step="0.01" oninput="this.nextElementSibling.value = this.value">
+    <output name="volumeOutput" id="volumeOutputId">1</output>
   </head>
+  <body>
+    <p id="a">dB: 0</p>
+  </body>
 
   <audio src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3" crossorigin="anonymous" ></audio>
 </html>
