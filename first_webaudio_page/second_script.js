@@ -82,12 +82,33 @@ function volume_control(audioCtx, gainNode,){
   }, false);
 }
 
+
+function frequency_control(audioCtx, biquad_filter){
+  const frequency_slider = document.querySelector('#frequency');
+  frequency_slider.addEventListener('input', function() {
+    if (audioCtx.state === 'suspended'){
+      audioCtx.resume();
+    }
+    else{
+      biquad_filter.type = "lowpass";
+      biquad_filter.frequency.value = this.value;
+      document.getElementById("b").innerHTML = `frequency:${get_decibel( biquad_filter.frequency.value )}`;
+    }
+  }, false);
+}
+
+
 const audioContext = new AudioContext();
 const audioElement = document.querySelector('audio');
 const track = audioContext.createMediaElementSource(audioElement);
 const gainNode = audioContext.createGain();
 const analyser = audioContext.createAnalyser();
-track.connect(gainNode).connect(analyser).connect(audioContext.destination);
+const biquad_filter = audioContext.createBiquadFilter();
+
+track.connect(analyser).connect(biquad_filter).connect(gainNode).connect(audioContext.destination);
 graph_frequency(analyser);
 play_button(audioContext, audioElement);
 volume_control(audioContext, gainNode);
+frequency_control(audioContext, biquad_filter);
+
+
