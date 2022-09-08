@@ -9,9 +9,11 @@ function get_decibel(x) {
 }
 
 function graph_frequency(analyser){
-  analyser.fftSize = 256;
+  // 4800Hz and 2048 fft = 2400/1024 = 23.4Hz per bin
+  analyser.fftSize = 2048;
+ 
   const bufferLength = analyser.frequencyBinCount;
-  console.log(bufferLength);
+  console.log(analyser.minDecibels);
   const dataArray = new Uint8Array(bufferLength);
 
   var canvas = document.querySelector('.visualizer');
@@ -25,24 +27,56 @@ function graph_frequency(analyser){
 
   var draw = function() {
     drawVisual = requestAnimationFrame(draw);
-
+  
     analyser.getByteFrequencyData(dataArray);
-
+    
     canvasCtx.fillStyle = 'rgb(0, 0, 0)';
     canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
     var barWidth = (WIDTH / bufferLength) * 2.5;
     var barHeight;
     var x = 0;
-    document.getElementById("b").innerHTML = `${dataArray}`;
+    var total = 0;
+    for(var j = 0; j < 500; j++) {
+        total += dataArray[j];
+    }
+    var upto500 = 0;
     for(var i = 0; i < bufferLength; i++) {
       barHeight = dataArray[i];
-
-      canvasCtx.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
+      
+      // 250//23.4 = 10.68 for audiogram relation
+      if(i < 10){
+        canvasCtx.fillStyle = 'rgb(125,0,0)';
+      }
+      // 500/23.4 = 21.37
+      else if(i < 21){
+        upto500 += dataArray[i];
+        canvasCtx.fillStyle = 'rgb(125,125,0)';
+      }
+      // 1000/23.4 = 42.74
+      else if(i < 42){
+        canvasCtx.fillStyle = 'rgb(125,125,0)';
+      }
+      // 2000/23.4 = 85.47
+      else if(i < 85){
+        canvasCtx.fillStyle = 'rgb(125,125,125)';
+      }
+      // 4000/23.4 = 170.94
+      else if(i < 170){
+        canvasCtx.fillStyle = 'rgb(255,0,0)';
+      }
+      // 8000/23.4 = 341.88
+      else if(i < 341){
+        canvasCtx.fillStyle = 'rgb(255,125,0)';
+      }
+      else{
+        canvasCtx.fillStyle = 'rgb(255,255,0)';
+      }
       canvasCtx.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
 
       x += barWidth + 1;
     }
+    document.getElementById("b").innerHTML = `${upto500/11}`;
   };
 
   draw();
@@ -92,20 +126,21 @@ function frequency_control(audioCtx, biquad_filter){
     else{
       biquad_filter.type = "lowpass";
       biquad_filter.frequency.value = this.value;
-      document.getElementById("b").innerHTML = `frequency:${get_decibel( biquad_filter.frequency.value )}`;
+      //document.getElementById("b").innerHTML = `frequency:${get_decibel( biquad_filter.frequency.value )}`;
     }
   }, false);
 }
 
 
 const audioContext = new AudioContext();
+console.log(audioContext.sampleRate);
 const audioElement = document.querySelector('audio');
 const track = audioContext.createMediaElementSource(audioElement);
 const gainNode = audioContext.createGain();
 const analyser = audioContext.createAnalyser();
 const biquad_filter = audioContext.createBiquadFilter();
 
-track.connect(analyser).connect(biquad_filter).connect(gainNode).connect(audioContext.destination);
+track.connect(biquad_filter).connect(analyser).connect(gainNode).connect(audioContext.destination);
 graph_frequency(analyser);
 play_button(audioContext, audioElement);
 volume_control(audioContext, gainNode);
