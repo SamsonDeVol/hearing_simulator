@@ -34,6 +34,8 @@ which should output a message like such:
 
 ``` Serving HTTP on :: port 8000 (http://[::]:8000/) ... ```
 
+if running after updating files, remember to check and clear cahce if experiencing errors. 
+
 then navigate to the correct local port url (http://localhost:8000/) on your favorite browser and you should see the application up and running!
 
 ## Future Goals for the Project ##
