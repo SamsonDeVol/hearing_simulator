@@ -1,0 +1,53 @@
+.slider {
+  height: 300px;
+  margin: auto;
+}
+
+.slider-track {
+  width: 4px;
+  background: purple;
+}
+.slider-thumb {
+
+  height: 16px;
+  width: 16px;
+  border-radius: 100%;
+  background: rgb(255, 204, 0);
+
+}
+
+.slider-thumb:hover {
+  box-shadow: 0 0 0 8px var(--main-color-hover);
+}
+
+.canvas {
+  color: rgb(92, 92, 92);
+  border:4px solid #ffe100;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+
+}
+
+.play_click {
+
+
+}
+
+.web_audio {
+
+  background-color: lightblue;
+  text-align: center;
+}
+
+.slider_div {
+  text-align: center;
+}
+
+.biquad_filter {
+  border: 5px outset red;
+  background-color: lightblue;
+  text-align: center;
+}
