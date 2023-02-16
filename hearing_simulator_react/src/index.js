@@ -1,9 +1,13 @@
 import React, { useRef, useEffect } from 'react'
 import ReactDOM from 'react-dom/client';
 import './index.css'
+import { useState } from 'react';
 
 // npm install react-slider
 import ReactSlider from "react-slider";
+
+
+
 
 class PlayClick extends React.Component{
   constructor(props){
@@ -19,7 +23,7 @@ class PlayClick extends React.Component{
   }
 
   render(){
-    console.log("PlayClick playing state: ", this.state.playing)
+    // console.log("PlayClick playing state: ", this.state.playing)
     return(
       <button onClick={ (e) => {this.handleClick(e)} }> {String(this.state.playing)} </button> 
     )
@@ -69,7 +73,7 @@ const useCanvas = draw => {
 }
 
 function GraphFrequencies(props){
-  console.log("neeed: ", props.analyser)
+  // console.log("neeed: ", props.analyser)
   // 4800Hz and 2048 fft = 2400/1024 = 23.4Hz per bin
   props.analyser.fftSize = 2048;
  
@@ -144,7 +148,8 @@ class WebAudio extends React.Component {
       audioElement: null,
       analyser: null,
       track: null,
-      biquadFilter: null
+      biquadFilter: null,
+      biquadFilterFrequencyValue: null,
     }
   }
 
@@ -156,20 +161,20 @@ class WebAudio extends React.Component {
     const track = audioContext.createMediaElementSource(audioElement);
     const gainNode = audioContext.createGain();
     const analyser = audioContext.createAnalyser();
-
-    // const biquadFilter0 = audioContext.createBiquadFilter();
-
+    const biquadFilter0 = audioContext.createBiquadFilter();
+    biquadFilter0.type = "peaking"
+    
     // connect Web Audio API components
-    track.connect(analyser).connect(gainNode).connect(audioContext.destination);
+    track.connect(biquadFilter0).connect(analyser).connect(gainNode).connect(audioContext.destination);
     track.connect(audioContext.destination);
 
     // update WebAudio state
     this.setState({
-      audioContext: audioContext, 
+      audioContext: audioContext,
       audioElement: audioElement,
       analyser: analyser,
-      track: track
-      // biquadFilter: biquadFilter0
+      track: track,
+      biquadFilter0: biquadFilter0
     })
   }
 
@@ -189,8 +194,26 @@ class WebAudio extends React.Component {
     }
 
   }
+
+  biquadFilterHandler = (event) => {
+    // this.setState(prevState => ({ ...prevState.biquadFilter0,
+    //   biquadFilter0: {
+    //            // copy all other key-value pairs of biquadFilter0 object
+    //     type: "lowpass"         // update value of specific key
+        
+    //   }
+    // }))
+    // this.setState({
+      
+    //   // biquadFilter0.frequency.setValueAtTime(1000, audioCtx.currentTime);
+    //   // biquadFilter0.gain.setValueAtTime(1000, audioCtx.currentTime);
+    // })
+  }
   
   render(){
+    // console.log(this.state.food)
+    // console.log("biquad stats: ", this.state.biquadFilter0)
+    // this.state.biquadFilter0.frequency.setValueAtTime(250, this.state.audioContext.currentTime);
     let graph
     if(this.state.analyser !== null){
       graph = <GraphFrequencies analyser={this.state.analyser}/>
@@ -201,35 +224,28 @@ class WebAudio extends React.Component {
       <div className="web_audio">
         {graph}
         <PlayClick className="play_click" playClickHandler={this.playClickHandler}/>
-        <BiquadFilter className="biquad_filter"/>
+        <BiquadFilter className="biquad_filter" biquadFilterHandler={this.biquadFilterHandler}/>
       </div>
     )
   }
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(<App />)
-
 class BiquadFilter extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      type: "peaking",
-      frequencyValue: 250,
-      Q: 1,
-      gainValue: 0,
+      gainValue: 0
     }
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange(event, valueNow){
-    console.log("sliding: ", event[1], valueNow)
-    this.setState({
-      gainValue: event[1]
-    })
-    
+  handleChange(event){
+    this.setState({gainValue: event})
+    this.props.biquadFilterHandler(this.state.gainValue)
   }
+
   render(){
+    // console.log("new value state: ", this.state.gainValue)
     return (
       <div className="slider_div">
         <Slider onChange={this.handleChange}/>
@@ -254,8 +270,14 @@ const Slider = ({ onChange }) => {
       pearling
       minDistance={10}
     />
-  );
-};
+  )
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+
+
+
 
 // class FilterControl extends React.Component{
 //   constructor(props){
@@ -305,97 +327,6 @@ const Slider = ({ onChange }) => {
 //     }
 //   }, false);
 // }
-
-
-
-
-// class GraphFrequencies extends React.Component {
-//   constructor(props){
-//     super(props)
-//     this.state = {
-//       analyser: props.analyser,
-//       bufferLength: null,
-//       dataArray: new Uint8Array(props.analyser.frequencyBinCount),
-//       canvasContext: null,
-//       drawVisual: null,
-//       height: 100,
-//       width: 640
-//     }
-//   }
-
-
-//   componentDidMount(){
-//     console.log("analyser passed 2: ", this.props.analyser)
-//     //4800Hz and 2048 fft = 2400/1024 = 23.4Hz per bin
-    
-
-    
-//     this.setState({
-//       analyser: this.props.analyser,
-//       bufferLength: this.props.analyser.frequencyBinCount,
-//       dataArray: new Uint8Array(this.props.analyser.frequencyBinCount),
-
-//       // drawVisual: requestAnimationFrame(draw)
-//     })
-//     this.state.analyser.fftSize(2048)
-//   }
-
-
-//   render(){
-//     let canvas = document.querySelector('.visualizer');
-//     let canvasContext = canvas.getContext("2d")
-//     canvasContext.clearRect(0, 0, this.state.width, this.state.height)
-//     //draw an oscilloscope of the current audio source
-//     this.state.analyser.getByteFrequencyData(this.state.dataArray);
-//     canvasContext.fillStyle = 'rgb(0, 0, 0)'
-//     canvasContext.fillRect(0, 0, this.state.width, this.state.height);
-
-//     var barWidth = (this.state.width / this.state.bufferLength) * 2.5;
-//     var barHeight;
-//     var x = 0;
-//     for(var i = 0; i < this.state.bufferLength; i++) {
-//       barHeight = this.state.dataArray[i];
-      
-//       // 250//23.4 = 10.68 for audiogram relation
-//       if(i < 10){
-//         canvasContext.fillStyle('rgb(255,0,0)')
-//       }
-//       // 500/23.4 = 21.37
-//       else if(i < 21){
-//         canvasContext.fillStyle('rgb(255,127,0)')
-//       }
-//       // 1000/23.4 = 42.74
-//       else if(i < 42){
-//         canvasContext.fillStyle('rgb(255,255,0)')
-//       }
-//       // 2000/23.4 = 85.47
-//       else if(i < 85){
-//         canvasContext.fillStyle('rgb(0,255,0)')
-//       }
-//       // 4000/23.4 = 170.94
-//       else if(i < 170){
-//         canvasContext.fillStyle('rgb(0,0,255)');
-//       }
-//       // 8000/23.4 = 341.88
-//       else if(i < 341){
-//         canvasContext.fillStyle('rgb(75,0,130)');
-//       }
-//       else{
-//         canvasContext.fillStyle('rgb(148,0,211)');
-//       }
-//       canvasContext.fillRect(x,this.state.height-barHeight/2,barWidth,barHeight/2);
-//       x += barWidth + 1;
-//     }
-
-    
-//     return (
-//       canvasContext
-//     )
-//   }
-
-// }                    
-
-
 
 
 // Samson DeVol, Hearing Simulator usin Web Audio API in JavaScript
