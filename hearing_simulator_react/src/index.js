@@ -1,9 +1,108 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client';
 import './index.css'
-
+import Slider from './components/filter.js';
+import GraphFrequencies from './components/graph';
 // npm install react-slider
-import ReactSlider from "react-slider";
+
+// instantiate Web Audio API
+let AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioContext = new AudioContext();
+let audioElement = document.querySelector('audio');
+let track = audioContext.createMediaElementSource(audioElement);
+let gain = audioContext.createGain();
+let analyser = audioContext.createAnalyser();
+let frequencies = [0, 250, 500, 1000, 2000, 4000, 8000]
+
+let filters = frequencies.map(frequency => {
+  let filter = audioContext.createBiquadFilter();
+  filter.type = "peaking"
+  filter.frequency.value = frequency
+  return(filter)
+})
+
+console.log(filters)
+// let filter = audioContext.createBiquadFilter();
+// filter.type = "peaking"
+// filter.frequency.value = 50
+track.connect(filters[0]).connect(filters[1]).connect(filters[2]).connect(filters[3]).connect(filters[4]).connect(filters[5]).connect(filters[6]).connect(analyser).connect(gain).connect(audioContext.destination);
+
+
+function App() {
+  const [filtersSettings0, setFilterSettings0] = useState({
+    gain: filters[0].gain.value
+  }) 
+  const [filtersSettings1, setFilterSettings1] = useState({
+    gain: filters[1].gain.value
+  }) 
+  const [filtersSettings2, setFilterSettings2] = useState({
+    gain: filters[2].gain.value
+  }) 
+  const [filtersSettings3, setFilterSettings3] = useState({
+    gain: filters[3].gain.value
+  }) 
+  const [filtersSettings4, setFilterSettings4] = useState({
+    gain: filters[4].gain.value
+  }) 
+  const [filtersSettings5, setFilterSettings5] = useState({
+    gain: filters[5].gain.value
+  }) 
+  const [filtersSettings6, setFilterSettings6] = useState({
+    gain: filters[6].gain.value
+  }) 
+ 
+  
+  const changeFilter0 = gainValue => {
+    console.log("la", gainValue)
+    setFilterSettings0({...filtersSettings0, gain: gainValue})
+    filters[0].gain.value = gainValue
+  }
+  const changeFilter1 = gainValue => {
+    console.log("la", gainValue)
+    setFilterSettings1({...filtersSettings1, gain: gainValue})
+    filters[1].gain.value = gainValue
+  }
+  const changeFilter2 = gainValue => {
+    console.log("la", gainValue)
+    setFilterSettings2({...filtersSettings2, gain: gainValue})
+    filters[2].gain.value = gainValue
+  }
+  const changeFilter3 = gainValue => {
+    console.log("la", gainValue)
+    setFilterSettings3({...filtersSettings3, gain: gainValue})
+    filters[3].gain.value = gainValue
+  }
+  const changeFilter4 = gainValue => {
+    console.log("la", gainValue)
+    setFilterSettings4({...filtersSettings4, gain: gainValue})
+    filters[4].gain.value = gainValue
+  }
+  const changeFilter5 = gainValue => {
+    console.log("la", gainValue)
+    setFilterSettings5({...filtersSettings5, gain: gainValue})
+    filters[5].gain.value = gainValue
+  }
+  const changeFilter6 = gainValue => {
+    console.log("la", gainValue)
+    setFilterSettings6({...filtersSettings6, gain: gainValue})
+    filters[6].gain.value = gainValue
+  }
+
+  return(
+    <div className='main-div'>
+      <div className='sliders'>
+        <Slider className="slider" change={changeFilter0} settings={filtersSettings0}/>
+        <Slider className="slider" change={changeFilter1} settings={filtersSettings1}/>
+        <Slider className="slider" change={changeFilter2} settings={filtersSettings2}/>
+        <Slider className="slider" change={changeFilter3} settings={filtersSettings3}/>
+        <Slider className="slider" change={changeFilter4} settings={filtersSettings4}/>
+        <Slider className="slider" change={changeFilter5} settings={filtersSettings5}/>
+        <Slider className="slider" change={changeFilter6} settings={filtersSettings6}/>
+      </div>
+      <WebAudio className="visuals"/>
+    </div>
+  )
+}
 
 class PlayClick extends React.Component{
   constructor(props){
@@ -19,163 +118,32 @@ class PlayClick extends React.Component{
   }
 
   render(){
-    console.log("PlayClick playing state: ", this.state.playing)
     return(
       <button onClick={ (e) => {this.handleClick(e)} }> {String(this.state.playing)} </button> 
     )
   }
 }
 
-function App() {
-  return(
-    <div>
-      <WebAudio/>
-    </div>
-  )
-}
-
-const Canvas = props => {  
-  
-  const { draw, ...rest } = props
-  const canvasRef = useCanvas(draw)
-  
-  return <canvas className="canvas" width="1280" height="200" ref={canvasRef} {...rest}/>
-}
-
-const useCanvas = draw => {
-  
-  const canvasRef = useRef(null)
-  
-  useEffect(() => {
-    
-    const canvas = canvasRef.current
-    const context = canvas.getContext('2d')
-    let frameCount = 0
-    let animationFrameId
-    
-    const render = () => {
-      frameCount++
-      draw(context, frameCount)
-      animationFrameId = window.requestAnimationFrame(render)
-    }
-    render()
-    
-    return () => {
-      window.cancelAnimationFrame(animationFrameId)
-    }
-  }, [draw])
-  
-  return canvasRef
-}
-
-function GraphFrequencies(props){
-  console.log("neeed: ", props.analyser)
-  // 4800Hz and 2048 fft = 2400/1024 = 23.4Hz per bin
-  props.analyser.fftSize = 2048;
- 
-  const bufferLength = props.analyser.frequencyBinCount;
-  // console.log(props.analyser.minDecibels);
-  const dataArray = new Uint8Array(bufferLength);
-
-
-  const WIDTH = 1280;
-  const HEIGHT = 200;
-
-  // draw an oscilloscope of the current audio source
-  const draw = (canvasContext, frameCount) => {
-    // let drawVisual = requestAnimationFrame(draw);
-  
-    props.analyser.getByteFrequencyData(dataArray);
-    canvasContext.fillStyle = 'rgb(0, 0, 0)';
-    canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
-
-    var barWidth = (WIDTH / bufferLength) * 2.5;
-    var barHeight;
-    var x = 0;
-    for(var i = 0; i < bufferLength; i++) {
-      barHeight = dataArray[i];
-      
-      // 250//23.4 = 10.68 for audiogram relation
-      if(i < 10){
-        canvasContext.fillStyle = 'rgb(255,0,0)';
-      }
-      // 500/23.4 = 21.37
-      else if(i < 21){
-        canvasContext.fillStyle = 'rgb(255,127,0)';
-      }
-      // 1000/23.4 = 42.74
-      else if(i < 42){
-        canvasContext.fillStyle = 'rgb(255,255,0)';
-      }
-      // 2000/23.4 = 85.47
-      else if(i < 85){
-        canvasContext.fillStyle = 'rgb(0,255,0)';
-      }
-      // 4000/23.4 = 170.94
-      else if(i < 170){
-        canvasContext.fillStyle = 'rgb(0,0,255)';
-      }
-      // 8000/23.4 = 341.88
-      else if(i < 341){
-        canvasContext.fillStyle = 'rgb(75,0,130)';
-      }
-      else{
-        canvasContext.fillStyle = 'rgb(148,0,211)';
-      }
-      canvasContext.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
-
-      x += barWidth + 1;
-    }
-  };
-
-  return (
-    <div>
-      <Canvas draw={draw} />
-    </div>
-  )
-}
-
 class WebAudio extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      song: process.env.PUBLIC_URL + 'whitenoise.mp3',
       audioContext: null,
       audioElement: null,
       analyser: null,
-      track: null,
-      biquadFilter: null
     }
   }
 
   componentDidMount(){
-    // create Web Audio API components
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioContext = new AudioContext();
-    const audioElement = document.querySelector('audio');
-    const track = audioContext.createMediaElementSource(audioElement);
-    const gainNode = audioContext.createGain();
-    const analyser = audioContext.createAnalyser();
-
-    // const biquadFilter0 = audioContext.createBiquadFilter();
-
-    // connect Web Audio API components
-    track.connect(analyser).connect(gainNode).connect(audioContext.destination);
-    track.connect(audioContext.destination);
-
     // update WebAudio state
     this.setState({
       audioContext: audioContext, 
       audioElement: audioElement,
       analyser: analyser,
-      track: track
-      // biquadFilter: biquadFilter0
     })
   }
 
   playClickHandler = (event) => {
-    // console.log("playing state", event, "song", this.state)
-
     // resume audio if suspended (required by Web Audio API)
     if (this.state.audioContext.state === 'suspended') {
       this.state.audioContext.resume();
@@ -187,7 +155,6 @@ class WebAudio extends React.Component {
     } else if(event === true){
       this.state.audioElement.pause()
     }
-
   }
   
   render(){
@@ -201,7 +168,6 @@ class WebAudio extends React.Component {
       <div className="web_audio">
         {graph}
         <PlayClick className="play_click" playClickHandler={this.playClickHandler}/>
-        <BiquadFilter className="biquad_filter"/>
       </div>
     )
   }
@@ -209,193 +175,6 @@ class WebAudio extends React.Component {
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(<App />)
-
-class BiquadFilter extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      type: "peaking",
-      frequencyValue: 250,
-      Q: 1,
-      gainValue: 0,
-    }
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  handleChange(event, valueNow){
-    console.log("sliding: ", event[1], valueNow)
-    this.setState({
-      gainValue: event[1]
-    })
-    
-  }
-  render(){
-    return (
-      <div className="slider_div">
-        <Slider onChange={this.handleChange}/>
-      </div>
-    )
-  }
-}
-
-const Slider = ({ onChange }) => {
-  return (
-    <ReactSlider
-      className="slider"
-      thumbClassName="slider-thumb"
-      trackClassName="slider-track"
-      min={0}
-      max={40}
-      defaultValue={0}
-      onChange={onChange}
-      renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
-      orientation="vertical"
-      invert
-      pearling
-      minDistance={10}
-    />
-  );
-};
-
-// class FilterControl extends React.Component{
-//   constructor(props){
-//     super(props)
-//     this.state = {
-//       audioContext: props.audioContext,
-//       biquadFilter: props.biquadFilter,
-//       frequencyValue: props.frequencyValue
-//     }
-//   }
-
-//   handleChange(){
-//     this.state.biquadFilter.type = "peaking";
-//     // center of the frequency band
-//     this.state.biquadFilter.frequency.value = this.state.frequencyValue;
-//     // sets slider Q factor, determining inverse band range
-//     // Q = frequency/BW (Band Width)
-//     this.state.biquadFilter.Q = 1
-//     // gain (or attenuation if negative) for dB level
-//     this.state.biquadFilter.gain.value = -(this.value)
-//     //document.getElementById("b").innerHTML = `frequency:${toDecibel( biquadFilter.frequency.value )}`;
-//   }
-//   render() {
-//     return (
-//       <div>
-//         <Slider aria-label="Volume" orientation="vertical" min={0} max={40} value={0} onChange={this.handleChange} />
-//       </div>
-//     )
-//   }
-// }
-// function filterControl(audioContext, biquadFilter, sliderIndex, frequencyValue){
-//   const frequency_slider = document.querySelector(sliderIndex);
-//   frequency_slider.addEventListener('input', function() {
-//     if (audioContext.state === 'suspended'){
-//       audioContext.resume();
-//     }
-//     else{
-//       biquadFilter.type = "peaking";
-//       // center of the frequency band
-//       biquadFilter.frequency.value = frequencyValue;
-//       // sets slider Q factor, determining inverse band range
-//       // Q = frequency/BW (Band Width)
-//       biquadFilter.Q = 1
-//       // gain (or attenuation if negative) for dB level
-//       biquadFilter.gain.value = -(this.value)
-//       //document.getElementById("b").innerHTML = `frequency:${toDecibel( biquadFilter.frequency.value )}`;
-//     }
-//   }, false);
-// }
-
-
-
-
-// class GraphFrequencies extends React.Component {
-//   constructor(props){
-//     super(props)
-//     this.state = {
-//       analyser: props.analyser,
-//       bufferLength: null,
-//       dataArray: new Uint8Array(props.analyser.frequencyBinCount),
-//       canvasContext: null,
-//       drawVisual: null,
-//       height: 100,
-//       width: 640
-//     }
-//   }
-
-
-//   componentDidMount(){
-//     console.log("analyser passed 2: ", this.props.analyser)
-//     //4800Hz and 2048 fft = 2400/1024 = 23.4Hz per bin
-    
-
-    
-//     this.setState({
-//       analyser: this.props.analyser,
-//       bufferLength: this.props.analyser.frequencyBinCount,
-//       dataArray: new Uint8Array(this.props.analyser.frequencyBinCount),
-
-//       // drawVisual: requestAnimationFrame(draw)
-//     })
-//     this.state.analyser.fftSize(2048)
-//   }
-
-
-//   render(){
-//     let canvas = document.querySelector('.visualizer');
-//     let canvasContext = canvas.getContext("2d")
-//     canvasContext.clearRect(0, 0, this.state.width, this.state.height)
-//     //draw an oscilloscope of the current audio source
-//     this.state.analyser.getByteFrequencyData(this.state.dataArray);
-//     canvasContext.fillStyle = 'rgb(0, 0, 0)'
-//     canvasContext.fillRect(0, 0, this.state.width, this.state.height);
-
-//     var barWidth = (this.state.width / this.state.bufferLength) * 2.5;
-//     var barHeight;
-//     var x = 0;
-//     for(var i = 0; i < this.state.bufferLength; i++) {
-//       barHeight = this.state.dataArray[i];
-      
-//       // 250//23.4 = 10.68 for audiogram relation
-//       if(i < 10){
-//         canvasContext.fillStyle('rgb(255,0,0)')
-//       }
-//       // 500/23.4 = 21.37
-//       else if(i < 21){
-//         canvasContext.fillStyle('rgb(255,127,0)')
-//       }
-//       // 1000/23.4 = 42.74
-//       else if(i < 42){
-//         canvasContext.fillStyle('rgb(255,255,0)')
-//       }
-//       // 2000/23.4 = 85.47
-//       else if(i < 85){
-//         canvasContext.fillStyle('rgb(0,255,0)')
-//       }
-//       // 4000/23.4 = 170.94
-//       else if(i < 170){
-//         canvasContext.fillStyle('rgb(0,0,255)');
-//       }
-//       // 8000/23.4 = 341.88
-//       else if(i < 341){
-//         canvasContext.fillStyle('rgb(75,0,130)');
-//       }
-//       else{
-//         canvasContext.fillStyle('rgb(148,0,211)');
-//       }
-//       canvasContext.fillRect(x,this.state.height-barHeight/2,barWidth,barHeight/2);
-//       x += barWidth + 1;
-//     }
-
-    
-//     return (
-//       canvasContext
-//     )
-//   }
-
-// }                    
-
-
 
 
 // Samson DeVol, Hearing Simulator usin Web Audio API in JavaScript
@@ -432,15 +211,15 @@ const Slider = ({ onChange }) => {
 //   }, false);
 // }
 
-// function volumeControl(audioContext, gainNode,){
+// function volumeControl(audioContext, gain,){
 //   const volumeControl = document.querySelector('#volume');
 //   volumeControl.addEventListener('input', function() {
 //     if (audioContext.state === 'suspended') {
 //       audioContext.resume();
 //     }
 //     else{
-//       gainNode.gain.value = this.value;
-//       document.getElementById("a").innerHTML = `dB:${toDecibel( gainNode.gain.value )}`;
+//       gain.gain.value = this.value;
+//       document.getElementById("a").innerHTML = `dB:${toDecibel( gain.gain.value )}`;
 //     }
 //   }, false);
 // }
@@ -471,7 +250,7 @@ const Slider = ({ onChange }) => {
 // const audioElement = document.querySelector('audio');
 // const track = audioContext.createMediaElementSource(audioElement);
 // console.log(track)
-// const gainNode = audioContext.createGain();
+// const gain = audioContext.createGain();
 // const analyser = audioContext.createAnalyser();
 
 // // initialize filters
@@ -484,12 +263,12 @@ const Slider = ({ onChange }) => {
 // const biquadFilter6 = audioContext.createBiquadFilter();
 
 // // connect audio elements
-// track.connect(biquadFilter0).connect(biquadFilter1).connect(biquadFilter2).connect(biquadFilter3).connect(biquadFilter4).connect(biquadFilter5).connect(biquadFilter6).connect(analyser).connect(gainNode).connect(audioContext.destination);
+// track.connect(biquadFilter0).connect(biquadFilter1).connect(biquadFilter2).connect(biquadFilter3).connect(biquadFilter4).connect(biquadFilter5).connect(biquadFilter6).connect(analyser).connect(gain).connect(audioContext.destination);
 
 // // connect interfaces 
 // graphFrequency(analyser);
 // playButton(audioContext, audioElement);
-// volumeControl(audioContext, gainNode);
+// volumeControl(audioContext, gain);
 
 // // pass biquad filters to specific function
 
