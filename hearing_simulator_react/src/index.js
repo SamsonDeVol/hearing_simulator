@@ -90,6 +90,8 @@ function App() {
 
   return(
     <div className='main-div'>
+
+      <WebAudio className="visuals"/>
       <div className='sliders'>
         <Slider className="slider" change={changeFilter0} settings={filtersSettings0}/>
         <Slider className="slider" change={changeFilter1} settings={filtersSettings1}/>
@@ -99,7 +101,6 @@ function App() {
         <Slider className="slider" change={changeFilter5} settings={filtersSettings5}/>
         <Slider className="slider" change={changeFilter6} settings={filtersSettings6}/>
       </div>
-      <WebAudio className="visuals"/>
     </div>
   )
 }

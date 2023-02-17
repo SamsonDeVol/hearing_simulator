@@ -35,20 +35,24 @@ const useCanvas = draw => {
 }
 
 function GraphFrequencies(props){
-
+  console.log("neeed: ", props.analyser)
   // 4800Hz and 2048 fft = 2400/1024 = 23.4Hz per bin
-  // TODO: decide best value
   props.analyser.fftSize = 2048;
- 
+
   const bufferLength = props.analyser.frequencyBinCount;
+  // console.log(props.analyser.minDecibels);
   const dataArray = new Uint8Array(bufferLength);
+
+
   const WIDTH = 1280;
   const HEIGHT = 200;
 
   // draw an oscilloscope of the current audio source
-  const draw = (canvasContext) => {
-  
+  const draw = (canvasContext, frameCount) => {
+    // let drawVisual = requestAnimationFrame(draw);
+
     props.analyser.getByteFrequencyData(dataArray);
+    canvasContext.fillStyle = 'rgb(0, 0, 0)';
     canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
 
     var barWidth = (WIDTH / bufferLength) * 2.5;
@@ -56,43 +60,44 @@ function GraphFrequencies(props){
     var x = 0;
     for(var i = 0; i < bufferLength; i++) {
       barHeight = dataArray[i];
+
       // 250//23.4 = 10.68 for audiogram relation
-      if(i < 10.68){
+      if(i < 10){
         canvasContext.fillStyle = 'rgb(255,0,0)';
       }
       // 500/23.4 = 21.37
-      else if(i < 21.37){
+      else if(i < 21){
         canvasContext.fillStyle = 'rgb(255,127,0)';
       }
       // 1000/23.4 = 42.74
-      else if(i < 42.74){
+      else if(i < 42){
         canvasContext.fillStyle = 'rgb(255,255,0)';
       }
       // 2000/23.4 = 85.47
-      else if(i < 85.47){
+      else if(i < 85){
         canvasContext.fillStyle = 'rgb(0,255,0)';
       }
       // 4000/23.4 = 170.94
-      else if(i < 170.94){
+      else if(i < 170){
         canvasContext.fillStyle = 'rgb(0,0,255)';
       }
       // 8000/23.4 = 341.88
-      else if(i < 341.88){
+      else if(i < 341){
         canvasContext.fillStyle = 'rgb(75,0,130)';
       }
       else{
-        canvasContext.fillStyle = 'rgb(255,255,255)';
+        canvasContext.fillStyle = 'rgb(148,0,211)';
       }
       canvasContext.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
+
       x += barWidth + 1;
     }
   };
 
   return (
-    <>
+    <div>
       <Canvas draw={draw} />
-    </>
+    </div>
   )
 }
-
 export default GraphFrequencies
