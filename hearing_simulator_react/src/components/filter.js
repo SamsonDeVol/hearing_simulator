@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactSlider from "react-slider";
-
+import './filter.css'
 const Slider = ({ change, settings }) => {
   const {type, frequency, Q, gain} = settings
 
@@ -10,7 +10,7 @@ const Slider = ({ change, settings }) => {
       thumbClassName="slider-thumb"
       trackClassName="slider-track"
       defaultValue={0}
-      id="frequency"
+      // id="frequency"
       min={-40}
       max={0}
       value={gain}
@@ -20,7 +20,7 @@ const Slider = ({ change, settings }) => {
       invert={true}
 
     />
-  );
-};
+  )
+}
 
 export default Slider

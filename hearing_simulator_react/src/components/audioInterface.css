@@ -1,0 +1,28 @@
+.interface-wrapper{
+  position:relative;
+  width:640px;
+  height:400px;
+  margin: auto;
+}
+
+.web-audio {
+  background-color: lightblue;
+  text-align: center;
+}
+
+.visuals, .sliders{
+  position:absolute; top:0px; left:0px;
+  width:640px;
+  height:400px;
+  display: flex;
+  flex-direction: row;
+}
+
+  .slider0{
+    
+  }
+
+
+.play-click{
+  color: #f5c000
+}

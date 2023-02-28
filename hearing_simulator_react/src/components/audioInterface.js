@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Slider from './filter.js'
 import GraphFrequencies from './graph.js'
+import './audioInterface.css'
 
 // instantiate Web Audio API
 let AudioContext = window.AudioContext || window.webkitAudioContext
@@ -73,17 +74,17 @@ function AudioInterface() {
   }
 
   return(
-    <div className='main-div'>
+    <div className='interface-wrapper'>
 
       <WebAudio className="visuals"/>
       <div className='sliders'>
-        <Slider className="slider" change={changeFilter0} settings={filtersSettings0}/>
-        <Slider className="slider" change={changeFilter1} settings={filtersSettings1}/>
-        <Slider className="slider" change={changeFilter2} settings={filtersSettings2}/>
-        <Slider className="slider" change={changeFilter3} settings={filtersSettings3}/>
-        <Slider className="slider" change={changeFilter4} settings={filtersSettings4}/>
-        <Slider className="slider" change={changeFilter5} settings={filtersSettings5}/>
-        <Slider className="slider" change={changeFilter6} settings={filtersSettings6}/>
+        <Slider className="slider0" change={changeFilter0} settings={filtersSettings0}/>
+        <Slider className="slider1" change={changeFilter1} settings={filtersSettings1}/>
+        <Slider className="slider2" change={changeFilter2} settings={filtersSettings2}/>
+        <Slider className="slider3" change={changeFilter3} settings={filtersSettings3}/>
+        <Slider className="slider4" change={changeFilter4} settings={filtersSettings4}/>
+        <Slider className="slider5" change={changeFilter5} settings={filtersSettings5}/>
+        <Slider className="slider6" change={changeFilter6} settings={filtersSettings6}/>
       </div>
     </div>
   )
@@ -104,7 +105,7 @@ class PlayClick extends React.Component{
 
   render(){
     return(
-      <button onClick={ (e) => {this.handleClick(e)} }> {String(this.state.playing)} </button> 
+      <button className="play-click" onClick={ (e) => {this.handleClick(e)} }> {String(this.state.playing)} </button> 
     )
   }
 }
@@ -146,9 +147,9 @@ class WebAudio extends React.Component {
       graph = <p> failed to load graph </p>
     }
     return (
-      <div className="web_audio">
+      <div className="web-audio">
         {graph}
-        <PlayClick className="play_click" playClickHandler={this.playClickHandler}/>
+        <PlayClick playClickHandler={this.playClickHandler}/>
       </div>
     )
   }

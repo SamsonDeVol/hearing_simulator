@@ -1,0 +1,21 @@
+.react-slider {
+  height: 200px;
+  margin: auto auto 0 auto;
+}
+
+.slider-track {
+  width: 4px;
+  background: grey;
+}
+
+.slider-thumb {
+  margin: auto;
+  height: 20px;
+  width: 20px;
+  border-radius: 100%;
+  background: #f5c000;
+}
+  .slider-thumb:hover {
+    box-shadow: 0 0 0 8px var(--main-color-hover);
+    color: red;
+  }
