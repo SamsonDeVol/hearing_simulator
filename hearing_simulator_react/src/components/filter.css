@@ -19,3 +19,16 @@
     box-shadow: 0 0 0 8px var(--main-color-hover);
     color: red;
   }
+
+
+  .slider-0{
+    position: absolute;
+    color: red;
+    margin-left: 0px;
+    width: 0px;
+  }
+
+  .slider-1{
+    position: absolute;
+    margin-left: 2px;
+  }

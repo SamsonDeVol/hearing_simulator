@@ -78,13 +78,13 @@ function AudioInterface() {
 
       <WebAudio className="visuals"/>
       <div className='sliders'>
-        <Slider className="slider0" change={changeFilter0} settings={filtersSettings0}/>
-        <Slider className="slider1" change={changeFilter1} settings={filtersSettings1}/>
-        <Slider className="slider2" change={changeFilter2} settings={filtersSettings2}/>
-        <Slider className="slider3" change={changeFilter3} settings={filtersSettings3}/>
-        <Slider className="slider4" change={changeFilter4} settings={filtersSettings4}/>
-        <Slider className="slider5" change={changeFilter5} settings={filtersSettings5}/>
-        <Slider className="slider6" change={changeFilter6} settings={filtersSettings6}/>
+        <Slider className="slider0" filter="0" change={changeFilter0} settings={filtersSettings0}/>
+        <Slider className="slider1" filter="1" change={changeFilter1} settings={filtersSettings1}/>
+        <Slider className="slider2" filter="2" change={changeFilter2} settings={filtersSettings2}/>
+        <Slider className="slider3" filter="3" change={changeFilter3} settings={filtersSettings3}/>
+        <Slider className="slider4" filter="4" change={changeFilter4} settings={filtersSettings4}/>
+        <Slider className="slider5" filter="5" change={changeFilter5} settings={filtersSettings5}/>
+        <Slider className="slider6" filter="6" change={changeFilter6} settings={filtersSettings6}/>
       </div>
     </div>
   )

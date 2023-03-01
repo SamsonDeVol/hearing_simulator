@@ -1,12 +1,14 @@
 import React from 'react'
 import ReactSlider from "react-slider";
 import './filter.css'
-const Slider = ({ change, settings }) => {
+
+const Slider = ({ filter, change, settings }) => {
   const {type, frequency, Q, gain} = settings
 
+  console.log(filter)
   return (
     <ReactSlider
-      className="react-slider"
+      className={`react-slider slider-${filter}`}
       thumbClassName="slider-thumb"
       trackClassName="slider-track"
       defaultValue={0}

@@ -5,7 +5,7 @@ function log10(x) {
   return Math.log(x)/Math.LN10;
 }
 
-function get_decibel(x) {
+function toDecibel(x) {
   return 20 * log10(x)
 }
 
@@ -103,7 +103,7 @@ function volumeControl(audioContext, gainNode,){
     }
     else{
       gainNode.gain.value = this.value;
-      document.getElementById("a").innerHTML = `dB:${get_decibel( gainNode.gain.value )}`;
+      document.getElementById("a").innerHTML = `dB:${toDecibel( gainNode.gain.value )}`;
     }
   }, false);
 }
@@ -123,7 +123,7 @@ function filterControl(audioContext, biquadFilter, sliderIndex, frequencyValue){
       biquadFilter.Q = 1
       // gain (or attenuation if negative) for dB level
       biquadFilter.gain.value = -(this.value)
-      //document.getElementById("b").innerHTML = `frequency:${get_decibel( biquadFilter.frequency.value )}`;
+      //document.getElementById("b").innerHTML = `frequency:${toDecibel( biquadFilter.frequency.value )}`;
     }
   }, false);
 }
