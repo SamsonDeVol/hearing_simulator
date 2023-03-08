@@ -15,7 +15,7 @@ function useSearch(query) {
             try {
                 const response = await fetch(
                     // `https://freesound.org/apiv2/search/text/?query=${query}&token=${process.env.API_KEY}`,
-                        `https://freesound.org/apiv2/sounds/${query}/?descriptors=lowlevel.mfcc,rhythm.bpm&token=${process.env.API_KEY}`,                
+                        `https://freesound.org/apiv2/sounds/${query}/?descriptors=lowlevel.mfcc,rhythm.bpm&token=${process.env.REACT_APP_API_KEY}`,                
                 )
                 if (response.status !== 200) {
                     console.log("== status:", response.status)
