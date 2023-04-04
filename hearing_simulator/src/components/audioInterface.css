@@ -1,0 +1,59 @@
+.interface-wrapper{
+  position:relative;
+  width:660px;
+  height:auto;
+  margin: auto;
+}
+
+.frequency-labels { 
+  margin-top: 0px;
+  padding: 0px;
+  display: flex;
+}
+
+.frequency-label{
+  padding: 0px;
+}
+
+.label-0 {
+  margin: 0px 0px 0px 10px;
+}
+.label-250 {
+  margin: 0px 0px 0px 68px;
+}
+.label-500 {
+  margin: 0px 0px 0px 60px;
+}
+.label-1000 {
+  margin: 0px 0px 0px 55px;
+}
+.label-2000 {
+  margin: 0px 0px 0px 50px;
+}
+.label-4000{
+  margin: 0px 0px 0px 50px;
+}
+.label-8000{
+  margin: 0px 0px 0px 50px;
+}
+.label-16000{
+  margin: 0px 0px 0px 30px;
+}
+
+.bold-text {
+  font-weight: 800;
+}
+
+
+
+
+.visuals, .sliders{
+  position:absolute; top:45px; left:120px;
+  width:660px;
+  height:400px;
+  display: flex;
+}
+
+.play-click{
+  color: #f5c000
+}

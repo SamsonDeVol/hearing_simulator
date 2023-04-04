@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "Cascadia";
+  src: url("./fonts/CascadiaCode.ttf") format("truetype");
+}
+
+.body {
+  min-height: 100vh;
+  margin: 0;
+  display:flex; 
+  flex-direction:column;
+}
+
+.routes {
+  flex: 1;
+}

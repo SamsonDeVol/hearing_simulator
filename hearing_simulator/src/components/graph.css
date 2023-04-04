@@ -1,0 +1,8 @@
+.canvas {
+  border:4px solid rgb(255, 204, 0);
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}

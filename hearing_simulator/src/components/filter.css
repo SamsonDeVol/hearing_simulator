@@ -1,0 +1,74 @@
+.react-slider {
+  height: 340px;
+  margin: auto auto 28px auto;
+  text-align: center;
+}
+
+.slider-track {
+  width: 3px;
+  background: rgb(0,133,155);
+  /* margin: auto; */
+  margin-left:8px;
+}
+
+.slider-thumb {
+  /* margin: auto; */
+  justify-content: center;
+  height: 20px;
+  z-index: 100;
+  position: absolute;
+  display:block;
+  width: 20px;
+  border-radius: 100%;
+  background: #ffb500;
+}
+  .slider-thumb:hover {
+    box-shadow: 0 0 0 8px var(--main-color-hover);
+    color: red;
+  }
+
+
+  .slider-0{
+    position: absolute;
+    color: red;
+    margin-left: 1px;
+    margin-right: 0px;
+    width: 0px;
+  }
+
+  .slider-1{
+    position: absolute;
+    margin: auto 0px 28px 91px;
+  }
+
+  .slider-2{
+    position: absolute;
+    margin: auto 0px 28px 91px;
+  }
+
+  .slider-3{
+    position: absolute;
+    margin: auto 0px 28px 91px;
+  }
+
+
+  .slider-4{
+    position: absolute;
+    margin: auto 0px 28px 91px;
+  }
+
+  .slider-5{
+    position: absolute;
+    margin: auto 0px 28px 91px;
+  }
+
+  .slider-6{
+    position: absolute;
+    margin: auto 0px 28px 91px;
+
+  }
+
+  .slider-7{
+    position: absolute;
+    margin: auto 0px 28px 91px;
+  }

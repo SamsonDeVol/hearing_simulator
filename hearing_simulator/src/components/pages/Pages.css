@@ -1,0 +1,113 @@
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  text-align: center;
+  padding: 30px;
+}
+
+.main-text {
+  margin: 0 10em 0 10em;
+  text-align: left;
+  font-size: 20px;
+}
+
+.audiogram-text {
+  text-align: left;
+  font-size: 20px;
+}
+
+.sources-text {
+  text-align: left;
+  font-size: 20px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.flex-item-left {
+  background-color: #f1f1f1;
+  padding: 10px;
+  flex: 50%;
+}
+
+.flex-item-right {
+  background-color: #f1f1f1;
+  padding: 10px;
+  flex: 50%;
+}
+
+.flex-item {
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+  padding: 30px; /* increase padding to make containers the same size */
+  flex: 1 1 30%; /* adjust flex value to make items smaller */
+  margin: 10px; /* add margin to separate the items */
+  text-align: center; /* center the content */
+  align-items: stretch; /* add this to make all flex items the same height */
+}
+
+.flex-item img {
+  max-width: 100%; /* set max-width instead of width */
+  height: auto; /* set height to auto to maintain aspect ratio */
+  vertical-align: middle;
+  object-fit: contain;
+  margin-top: 5px; /* add margin to make breathing space between text and image */
+}
+
+.flex-list {
+  max-width: 50%;
+  display: flex;
+  flex-direction: stretch;
+  text-align: center;
+}
+
+.audiogram-container {
+  margin: 0 15em 5em 15em;
+}
+
+.audiogram-container h1 {
+  text-align: center;
+}
+
+.audiogram-img-container {
+  text-align: center;
+  font-size: 80%;
+  width: 60%;
+  margin: auto;
+}
+
+.audiogram-img {
+  border: solid black 2px;
+  border-radius: 5%;
+  width: 60%;
+}
+
+ul {
+  list-style-type: none;
+  display: column;
+  align-items: top;
+  justify-content: space-around;
+}
+
+.footer {
+  text-align: center;
+  color: gray;
+  padding: 20px;
+  background-color: #f1f1f1;
+  /* position: fixed; */
+  bottom: 0;
+  /* width: 100%; */
+}
+
+/* Responsive layout - makes a one column-layout instead of two-column layout */
+@media (max-width: 800px) {
+  .flex-container {
+    flex-direction: column;
+  }
+}

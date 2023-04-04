@@ -1,0 +1,64 @@
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+
+.navbar {
+  font-size: large;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(255, 181, 0);
+  /* box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.2); */
+}
+
+.home {
+  display: flex;
+  color: black;
+  font-weight: bold;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.logolink img {
+  padding-top: 5px;
+  padding-left: 20px;
+  max-height: 60px;
+}
+
+.homelink {
+  text-decoration: none;
+  color: black;
+  padding: 25px;
+  flex: 1;
+  text-align: center;
+}
+
+.sidelinks {
+  width: 33%; /* Change this to adjust the width of the menu items */
+  display: flex;
+  margin-left: auto;
+  justify-content: flex-end; /* Add this to align the items to the right */
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+  padding: 25px;
+  flex: 1;
+  text-align: center;
+}
+
+.link:hover {
+  background-color: rgb(0, 133, 155);
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  width: 16.5%;
+  position: absolute;
+  right: 0;
+  background-color: rgb(255, 181, 0);
+}
