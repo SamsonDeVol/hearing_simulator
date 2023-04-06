@@ -4,6 +4,8 @@ function useSongSearch(query) {
     const [ songList, setsongList ] = useState([])
     const [ isSongLoading, setIsSongLoading ] = useState(false)
     const [ error, setError ] = useState(false)
+
+    const freesoundApiKey = 'bCPW0Q4NtPHPfDqijMRjEDQnFSYAaKKK82Jdtww6'
     useEffect(() => {
         let ignore = false
         const controller = new AbortController()
@@ -13,7 +15,7 @@ function useSongSearch(query) {
             console.log("key", process.env.API_KEY)
             try {
                 const response = await fetch(
-                    `https://freesound.org/apiv2/search/text/?query=${query}&token=${process.env.REACT_APP_API_KEY}`,
+                    `https://freesound.org/apiv2/search/text/?query=${query}&token=${freesoundApiKey}`,
                 )
                 if (response.status !== 200) {
                     console.log("== status:", response.status)
