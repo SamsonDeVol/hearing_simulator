@@ -10,7 +10,7 @@ function audioReducer(state = false, action) {
 			let track = audioContext.createMediaElementSource(audioElement)
 			let gain = audioContext.createGain()
 			let analyser = audioContext.createAnalyser()
-			let frequencies = [1, 250, 500, 1000, 2000, 4000, 8000, 16000]
+			let frequencies = [125, 250, 500, 1000, 2000, 4000, 8000, 16000]
 			let filters = frequencies.map(frequency => {
 				let filter = audioContext.createBiquadFilter()
 				filter.type = "peaking"
