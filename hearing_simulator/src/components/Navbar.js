@@ -26,7 +26,7 @@ function Navbar() {
       <nav className={"navbar"}>
         <div className={"home"}>
           <div className={"logo"}>
-            <NavLink className={"logolink"} to={"/"}>
+            <NavLink className={"logolink"} to={"/hearing_simulator"}>
               <img src={logo}></img>
             </NavLink>
           </div>
@@ -35,7 +35,7 @@ function Navbar() {
               style={({ isActive }) => (isActive ? activeStyle : undefined)}
               className={"link"}
               onClick={turnoffDropdown}
-              to="/"
+              to="/hearing_simulator"
             >
               Audiomatic
             </NavLink>
