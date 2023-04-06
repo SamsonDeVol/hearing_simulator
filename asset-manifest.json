@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/hearing_simulator/static/css/main.20068f2c.css",
-    "main.js": "/hearing_simulator/static/js/main.e5d7aa0f.js",
+    "main.css": "/hearing_simulator/static/css/main.ad69ab80.css",
+    "main.js": "/hearing_simulator/static/js/main.e132b2e1.js",
     "static/media/logo.png": "/hearing_simulator/static/media/logo.490374b5e79f9ca66862.png",
     "static/media/CascadiaCode.ttf": "/hearing_simulator/static/media/CascadiaCode.66741deedd204ca95dbe.ttf",
     "static/media/audiogram_diagnostic.png": "/hearing_simulator/static/media/audiogram_diagnostic.2e0bc83f005537593ea4.png",
     "index.html": "/hearing_simulator/index.html",
-    "main.20068f2c.css.map": "/hearing_simulator/static/css/main.20068f2c.css.map",
-    "main.e5d7aa0f.js.map": "/hearing_simulator/static/js/main.e5d7aa0f.js.map"
+    "main.ad69ab80.css.map": "/hearing_simulator/static/css/main.ad69ab80.css.map",
+    "main.e132b2e1.js.map": "/hearing_simulator/static/js/main.e132b2e1.js.map"
   },
   "entrypoints": [
-    "static/css/main.20068f2c.css",
-    "static/js/main.e5d7aa0f.js"
+    "static/css/main.ad69ab80.css",
+    "static/js/main.e132b2e1.js"
   ]
 }
