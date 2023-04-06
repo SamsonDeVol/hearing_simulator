@@ -37,7 +37,7 @@ function Navbar() {
               onClick={turnoffDropdown}
               to="/hearing_simulator"
             >
-              Audiomatic
+              Hearing Simulator
             </NavLink>
           </div>
         </div>
