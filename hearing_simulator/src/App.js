@@ -24,7 +24,7 @@ function App() {
                     <Navbar />
                     <div className="routes">
                         <Routes>
-                            <Route path="/hearing_simulator" element={<HomePage />} />
+                            <Route path="/" element={<HomePage />} />
                             <Route path="use" element={<AudioPage />} />
                             <Route path="audiogram" element={<AudiogramPage />} />
                             <Route path="sources" element={<SourcesPage />} />
